@@ -55,7 +55,7 @@ router.get('/articles/:id/edit', function (req, res, next) {
 //***********
 
 router.post('/articles/:id', function (req, res, next) {
-  articleCollection.update({_id: req.params.id}, {})
+  articleCollection.update({_id: req.params.id}, {title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
   res.redirect('/articles/'+req.params.id);
 });
 

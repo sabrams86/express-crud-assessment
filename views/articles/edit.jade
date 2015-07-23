@@ -1,0 +1,30 @@
+extends ./../layout
+
+block content
+  .content
+    h1 Editting Article 
+    form.newform(method='post' action='/articles/#{article._id}')
+      .row
+        label.col4(for='title') Title
+        input#title.col8(type='text' name='title' value='#{article.title}')
+      .row
+        label.col4(for='background') Background URL
+        input#background.col8(type='text' name='background' value='#{article.background_url}')
+      .row
+        .col4
+        label
+          input#checkbox(type='checkbox' name='background_dark' value='#{article.background_dark}')
+          |Background image has dark colors
+      .row
+        label.col4(for='excerpt') Excerpt
+        textarea#excerpt.col8(name='excerpt' rows='10')= article.excerpt
+      .row
+        label.col4(for='body') Body
+        textarea#body.col8(name='body' rows='10')= article.body
+      .row
+        .col4
+        input#submit(type='submit' value='Update Article')
+    form.deleteform(method='post' action='/articles/#{article._id}/delete')
+      .row
+        .col4
+        button.deletebutton(type='submit') Delete
