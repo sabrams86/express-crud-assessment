@@ -30,15 +30,18 @@ a:hover h2{
   margin: 15px 0px;
 }
 .edit {
-  display: inline;
+  display: inline-block;
   vertical-align: top;
   text-align: right;
+  width: 20%;
 }
 .article {
   margin-top: 20px;
 }
 .articletitle{
   display: inline-block;
+  vertical-align: top;
+  width: 75%;
 }
 .article_head{
   padding: 10px;
