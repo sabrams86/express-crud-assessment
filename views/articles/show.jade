@@ -1,0 +1,12 @@
+extends ./../layout
+
+block content
+  .article
+    .article_head
+      .articletitle
+        h2= article.title
+      .edit
+        a(href='/articles/#{article._id}/edit')
+          h2 Edit
+    .excerpt
+      p= article.body

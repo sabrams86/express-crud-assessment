@@ -11,16 +11,43 @@ h1, h2, h3, h4, h5 {
 h1 {
   font-size: 40px;
 }
+
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  color: inherit;
 }
 
+a:hover h2{
+  text-decoration: underline;
+}
+.new_article{
+  color: white;
+  margin: 15px 0px;
+}
+.edit {
+  display: inline;
+  vertical-align: top;
+  text-align: right;
+}
+.article {
+  margin-top: 20px;
+}
+.articletitle{
+  display: inline-block;
+}
+.article_head{
+  padding: 10px;
+  background-image: url('/images/default_title.png');
+}
+.excerpt {
+  background-color: white;
+  padding: 10px;
+}
 .header {
   display: block;
   text-align: right;
   height: 130px;
   background-image: url('/images/header.jpeg');
-  margin-bottom: 20px;
   padding: 20px;
 }
 .title {

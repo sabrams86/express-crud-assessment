@@ -3,5 +3,9 @@ extends ./../layout
 block content
   each article in articles
     .article
-      h2= article.title
-      p= article.excerpt
+      .article_head
+        a(href='/articles/#{article._id}')
+          h2= article.title
+      .excerpt
+        p= article.excerpt
+  a.new_article(href='/articles/new') Create a New Article
