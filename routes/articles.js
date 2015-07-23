@@ -8,7 +8,9 @@ var articleCollection = db.get('articles');
 //***********
 
 router.get('/articles', function (req, res, next) {
-  res.render('articles/index');
+  articleCollection.find({}, function (err, docs) {
+    res.render('articles/index', {articles: docs});
+  });
 });
 
 //***********
@@ -24,6 +26,7 @@ router.get('/articles/new', function (req, res, next) {
 //***********
 
 router.post('/articles', function (req, res, next) {
+  articleCollection.insert({title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body});
   res.redirect('/articles');
 });
 
@@ -32,7 +35,9 @@ router.post('/articles', function (req, res, next) {
 //***********
 
 router.get('/articles/:id', function (req, res, next) {
-  res.render('articles/show');
+  articleCollection.findOne({_id: req.params.id}, function (err, doc) {
+    res.render('articles/show', {article: doc});
+  });
 });
 
 //***********
@@ -40,7 +45,9 @@ router.get('/articles/:id', function (req, res, next) {
 //***********
 
 router.get('/articles/:id/edit', function (req, res, next) {
-  res.render('articles/edit');
+  articleCollection.findOne({_id: req.params.id}, function (err, doc) {
+    res.render('articles/edit', {article: doc});
+  });
 });
 
 //***********
@@ -48,7 +55,8 @@ router.get('/articles/:id/edit', function (req, res, next) {
 //***********
 
 router.post('/articles/:id', function (req, res, next) {
-  res.redirect('/articles/:id');
+  articleCollection.update({_id: req.params.id}, {})
+  res.redirect('/articles/'+req.params.id);
 });
 
 //***********
@@ -56,6 +64,7 @@ router.post('/articles/:id', function (req, res, next) {
 //***********
 
 router.post('/articles/:id/delete', function (req, res, next) {
+  articleCollection.remove({_id: req.params.id});
   res.redirect('/articles');
 });
 

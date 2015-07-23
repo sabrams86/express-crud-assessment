@@ -1,0 +1,26 @@
+extends ./../layout
+
+block content
+  .content
+    h1 New Article 
+    form.newform(method='post' action='/articles')
+      .row
+        label.col4(for='title') Title
+        input#title.col8(type='text' name='title')
+      .row
+        label.col4(for='background') Background URL
+        input#background.col8(type='text' name='background')
+      .row
+        .col4
+        label
+          input#checkbox(type='checkbox' name='background_dark')
+          |Background image has dark colors
+      .row
+        label.col4(for='excerpt') Excerpt
+        textarea#excerpt.col8(name='excerpt' rows='10')
+      .row
+        label.col4(for='body') Body
+        textarea#body.col8(name='body' rows='10')
+      .row
+        .col4
+        input#submit(type='submit' value='Add Article')
