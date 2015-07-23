@@ -9,7 +9,7 @@ var Error = require('./../lib/validator');
 //***********
 
 router.get('/articles', function (req, res, next) {
-  articleCollection.find({}, {sort: {dateCreated: -1}}, function (err, docs) {
+  articleCollection.find({}, {sort: {dateCreated: -1}}).then(function (docs) {
     res.render('articles/index', {articles: docs});
   });
 });
@@ -46,7 +46,7 @@ router.post('/articles', function (req, res, next) {
 //***********
 
 router.get('/articles/:id', function (req, res, next) {
-  articleCollection.findOne({_id: req.params.id}, function (err, doc) {
+  articleCollection.findOne({_id: req.params.id}).then(function (doc) {
     res.render('articles/show', {article: doc});
   });
 });
@@ -56,7 +56,7 @@ router.get('/articles/:id', function (req, res, next) {
 //***********
 
 router.get('/articles/:id/edit', function (req, res, next) {
-  articleCollection.findOne({_id: req.params.id}, function (err, doc) {
+  articleCollection.findOne({_id: req.params.id}).then(function (doc) {
     res.render('articles/edit', {article: doc});
   });
 });
@@ -67,11 +67,22 @@ router.get('/articles/:id/edit', function (req, res, next) {
 
 router.post('/articles/:id', function (req, res, next) {
   var validate = new Error();
+  var article = {
+    dateCreated: req.body.dateCreated,
+    _id: req.params.id,
+    title: req.body.title,
+    background_url:
+    req.body.background,
+    background_dark:
+    req.body.background_dark,
+    excerpt: req.body.excerpt,
+    body: req.body.body
+  }
   validate.exists(req.body.title, "Title cannot be blank");
   validate.exists(req.body.excerpt, "Excerpt cannot be blank");
   validate.exists(req.body.body, "Body cannot be blank");
   if (validate._errors.length > 0){
-    res.render('articles/edit', {errors: validate._errors, title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
+    res.render('articles/edit', {errors: validate._errors, article: article})
   } else {
     articleCollection.update({_id: req.params.id}, {dateCreated: req.body.dateCreated, title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
     res.redirect('/articles/'+req.params.id);
