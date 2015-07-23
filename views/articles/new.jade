@@ -3,24 +3,26 @@ extends ./../layout
 block content
   .content
     h1 New Article 
+    if errors
+      include ./../_errors
     form.newform(method='post' action='/articles')
       .row
         label.col4(for='title') Title
-        input#title.col8(type='text' name='title')
+        input#title.col8(type='text' name='title' value=(title ? title: ''))
       .row
         label.col4(for='background') Background URL
-        input#background.col8(type='text' name='background')
+        input#background.col8(type='text' name='background' value=(background_url ? background_url: ''))
       .row
         .col4
         label
-          input#checkbox(type='checkbox' name='background_dark')
+          input#checkbox(type='checkbox' name='background_dark' checked=(background_dark ? 'checked': undefined))
           |Background image has dark colors
       .row
         label.col4(for='excerpt') Excerpt
-        textarea#excerpt.col8(name='excerpt' rows='10')
+        textarea#excerpt.col8(name='excerpt' rows='10')= excerpt
       .row
         label.col4(for='body') Body
-        textarea#body.col8(name='body' rows='10')
+        textarea#body.col8(name='body' rows='10')= body
       .row
         .col4
         input#submit(type='submit' value='Add Article')

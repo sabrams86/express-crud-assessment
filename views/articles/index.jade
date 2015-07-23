@@ -3,9 +3,32 @@ extends ./../layout
 block content
   each article in articles
     .article
-      .article_head
-        a(href='/articles/#{article._id}')
-          h2= article.title
-      .excerpt
-        p= article.excerpt
+      if article.background_url 
+        .article_head(style='background-image: url("#{article.background_url}")')
+          a(href='/articles/#{article._id}')
+            if article.background_dark
+              h2.light= article.title
+            else
+              h2= article.title
+        .excerpt
+          p= article.excerpt
+      else
+        if article.background_dark
+          .article_head.dark_background
+            a(href='/articles/#{article._id}')
+              if article.background_dark
+                h2.light= article.title
+              else
+                h2= article.title
+          .excerpt
+            p= article.excerpt
+        else 
+          .article_head.light_background
+            a(href='/articles/#{article._id}')
+              if article.background_dark
+                h2.light= article.title
+              else
+                h2= article.title
+          .excerpt
+            p= article.excerpt
   a.new_article(href='/articles/new') Create a New Article

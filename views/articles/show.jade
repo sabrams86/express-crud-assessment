@@ -2,11 +2,40 @@ extends ./../layout
 
 block content
   .article
-    .article_head
-      .articletitle
-        h2= article.title
-      .edit
-        a(href='/articles/#{article._id}/edit')
-          h2 Edit
-    .excerpt
-      p= article.body
+    if article.background_url
+      .article_head(style='background-image: url("#{article.background_url}")')
+        .articletitle
+          if article.background_dark
+            h2.light= article.title
+          else
+            h2= article.title
+        .edit
+          a(href='/articles/#{article._id}/edit')
+            h2.light Edit
+      .excerpt
+        p= article.body
+    else 
+      if article.background_dark
+        .article_head.dark_background
+          .articletitle
+            if article.background_dark
+              h2.light= article.title
+            else
+              h2= article.title
+          .edit
+            a(href='/articles/#{article._id}/edit')
+              h2 Edit
+        .excerpt
+          p= article.body
+      else 
+        .article_head.light_background
+          .articletitle
+            if article.background_dark
+              h2.light= article.title
+            else
+              h2= article.title
+          .edit
+            a(href='/articles/#{article._id}/edit')
+              h2 Edit
+        .excerpt
+          p= article.body

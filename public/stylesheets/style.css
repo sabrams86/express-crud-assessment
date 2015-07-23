@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  padding-bottom: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url('/images/background.png');
 }
@@ -16,7 +17,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+.hidden{
+  display: none;
+}
 a:hover h2{
   text-decoration: underline;
 }
@@ -37,6 +40,13 @@ a:hover h2{
 }
 .article_head{
   padding: 10px;
+  background-image: url('/images/default_title.png');
+}
+.dark_background{
+  background-image: url('/images/default_title_dark.png');
+
+}
+.light_background{
   background-image: url('/images/default_title.png');
 }
 .excerpt {
@@ -90,5 +100,13 @@ a:hover h2{
 .deletebutton {
   background-color: red;
   border: 2px solid maroon;
+  color: white;
+}
+
+.error, .error_list {
+  color: red;
+}
+
+.light {
   color: white;
 }

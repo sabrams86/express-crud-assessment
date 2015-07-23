@@ -2,13 +2,14 @@ var express = require('express');
 var router = express.Router();
 var db = require('monk')(process.env.MONGOLAB_URI);
 var articleCollection = db.get('articles');
+var Error = require('./../lib/validator');
 
 //***********
 //** INDEX **
 //***********
 
 router.get('/articles', function (req, res, next) {
-  articleCollection.find({}, function (err, docs) {
+  articleCollection.find({}, {sort: {dateCreated: -1}}, function (err, docs) {
     res.render('articles/index', {articles: docs});
   });
 });
@@ -26,8 +27,18 @@ router.get('/articles/new', function (req, res, next) {
 //***********
 
 router.post('/articles', function (req, res, next) {
-  articleCollection.insert({title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body});
-  res.redirect('/articles');
+  var validate = new Error();
+  var date = new Date();
+  date = date.toString();
+  validate.exists(req.body.title, "Title cannot be blank");
+  validate.exists(req.body.excerpt, "Excerpt cannot be blank");
+  validate.exists(req.body.body, "Body cannot be blank");
+  if (validate._errors.length > 0){
+    res.render('articles/new', {errors: validate._errors, title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
+  } else {
+    articleCollection.insert({title: req.body.title, dateCreated: date, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body});
+    res.redirect('/articles');
+  }
 });
 
 //***********
@@ -55,8 +66,16 @@ router.get('/articles/:id/edit', function (req, res, next) {
 //***********
 
 router.post('/articles/:id', function (req, res, next) {
-  articleCollection.update({_id: req.params.id}, {title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
-  res.redirect('/articles/'+req.params.id);
+  var validate = new Error();
+  validate.exists(req.body.title, "Title cannot be blank");
+  validate.exists(req.body.excerpt, "Excerpt cannot be blank");
+  validate.exists(req.body.body, "Body cannot be blank");
+  if (validate._errors.length > 0){
+    res.render('articles/edit', {errors: validate._errors, title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
+  } else {
+    articleCollection.update({_id: req.params.id}, {dateCreated: req.body.dateCreated, title: req.body.title, background_url: req.body.background, background_dark: req.body.background_dark, excerpt: req.body.excerpt, body: req.body.body})
+    res.redirect('/articles/'+req.params.id);
+  }
 });
 
 //***********
